@@ -3,21 +3,13 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"timefull-api-go/db"
+	_ "timefull-api-go/docs"
 
-	// "./economy"
-	// "./task"
-
-	_ "timefull-go/docs"
-
-	"github.com/swaggo/http-swagger"
+	httpSwagger "github.com/swaggo/http-swagger"
+	// packages
+	user "timefull-api-go/user"
 )
-
-func register() {
-	// economy.RegisterApi()
-	// task.RegisterApi()
-	// user.RegisterApi()
-
-}
 
 // @title Timefill API Go
 // @version 2.0
@@ -32,14 +24,17 @@ func register() {
 // @BasePath /
 
 func main() {
-	register()
-	// Маршрут для Swagger UI
+	// db
+	if err := db.Init(); err != nil {
+		fmt.Println("Error connecting to database:", err)
+		return
+	}
+	// api
+	user.RegisterApi()
 	http.Handle("/swagger/", httpSwagger.WrapHandler)
-
-	fmt.Println("Work by uri: http://localhost:8080")
 	fmt.Println("Swagger: http://localhost:8080/swagger/index.html")
-
 	if err := http.ListenAndServe(":8080", nil); err != nil {
 		fmt.Println("Error starting server:", err)
 	}
+
 }

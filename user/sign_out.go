@@ -5,6 +5,6 @@ import (
 	"net/http"
 )
 
-func Handler(w http.ResponseWriter, r *http.Request) {
+func SignOutHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "UserModel endpoint")
 }
